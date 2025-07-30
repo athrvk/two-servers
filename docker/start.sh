@@ -6,7 +6,7 @@ echo "Starting two-servers application..."
 # Start Express server with PM2
 echo "Starting Express API server..."
 cd /app/express-server
-PORT=3001 HOST=0.0.0.0 pm2 start server.js --name "express-api" --no-daemon &
+PORT=3001 HOST=0.0.0.0 pm2 start npm --name "express-api" --no-daemon -- start &
 EXPRESS_PID=$!
 
 # Start Next.js server with PM2  
