@@ -10,7 +10,7 @@ PORT=3001 pm2 start server.js --name "express-api" --no-daemon &
 # Start Next.js server with PM2  
 echo "Starting Next.js frontend..."
 cd /app/nextjs-app
-PORT=3000 pm2 start server.js --name "nextjs-app" --no-daemon &
+PORT=3000 pm2 pm2 start npm --name "nextjs-app" --no-daemon  --  start &
 
 # Wait a bit for servers to start
 sleep 5
