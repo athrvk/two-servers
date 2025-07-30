@@ -1,0 +1,25 @@
+{
+  "name": "two-servers",
+  "version": "1.0.0",
+  "description": "POC with Express.js and Next.js running in a single container",
+  "scripts": {
+    "install:all": "cd express-server && npm install && cd ../nextjs-app && npm install",
+    "dev:express": "cd express-server && npm run dev",
+    "dev:nextjs": "cd nextjs-app && npm run dev",
+    "build": "cd nextjs-app && npm run build",
+    "start:render": "node render-server.js",
+    "docker:build": "docker build -t two-servers .",
+    "docker:run": "docker run -p 80:80 two-servers"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "http-proxy-middleware": "^2.0.6"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
