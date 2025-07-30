@@ -3,6 +3,7 @@ const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const HOST = process.env.HOST || '0.0.0.0';
 
 // Middleware
 app.use(cors());
@@ -40,6 +41,6 @@ app.get('/api/*', (req, res) => {
   res.status(404).json({ error: 'API endpoint not found' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Express server running on port ${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`Express server running on ${HOST}:${PORT}`);
 });

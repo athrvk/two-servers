@@ -1,19 +1,32 @@
 #!/bin/sh
+set -e  # Exit on any error
 
 echo "Starting two-servers application..."
 
 # Start Express server with PM2
 echo "Starting Express API server..."
 cd /app/express-server
-PORT=3001 pm2 start server.js --name "express-api" --no-daemon &
+PORT=3001 HOST=0.0.0.0 pm2 start server.js --name "express-api" --no-daemon &
+EXPRESS_PID=$!
 
 # Start Next.js server with PM2  
 echo "Starting Next.js frontend..."
 cd /app/nextjs-app
-PORT=3000 pm2 pm2 start npm --name "nextjs-app" --no-daemon  --  start &
+PORT=3000 HOST=0.0.0.0 pm2 start npm --name "nextjs-app" --no-daemon -- start &
+NEXTJS_PID=$!
 
-# Wait a bit for servers to start
-sleep 5
+# Wait for servers to start
+echo "Waiting for services to start..."
+sleep 10
+
+# Check if services are running
+echo "Checking service status..."
+pm2 list
+
+# Test connectivity (optional - comment out if causing issues)
+echo "Testing services..."
+curl -f http://127.0.0.1:3001/api/health > /dev/null 2>&1 && echo "✓ Express API is responding" || echo "⚠ Express API not responding"
+curl -f http://127.0.0.1:3000/ > /dev/null 2>&1 && echo "✓ Next.js app is responding" || echo "⚠ Next.js app not responding"
 
 # Start nginx in foreground (this will keep the container running)
 echo "Starting nginx..."
