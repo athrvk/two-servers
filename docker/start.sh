@@ -9,11 +9,15 @@ cd /app/express-server
 PORT=3001 HOST=0.0.0.0 pm2 start npm --name "express-api" --no-daemon -- start &
 EXPRESS_PID=$!
 
+sleep 5  # Wait for Express server to start
+
 # Start Next.js server with PM2  
 echo "Starting Next.js frontend..."
 cd /app/nextjs-app
 PORT=3000 HOST=0.0.0.0 pm2 start npm --name "nextjs-app" --no-daemon -- start &
 NEXTJS_PID=$!
+
+sleep 5  # Wait for Next.js server to start
 
 # Wait for servers to start
 echo "Waiting for services to start..."
